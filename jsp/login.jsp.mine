@@ -1,0 +1,430 @@
+<%@page import="com.nivesh.command.signup.SignupCommand"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<script type="text/javascript"
+	src="<c:url value="/resources/angular/controller/graphController.js"/>"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/angular/service/graphService.js"/>"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/angular/service/watchlist_Service.js"/>"></script>
+
+<link href="<c:url value="/resources/css/graph.css"/>" rel="stylesheet">
+<script src="<c:url value="/resources/js/graph.js" />"></script>
+
+<script type="text/javascript"
+	src="<c:url value="/resources/angular/controller/autoCompleteController.js"/>"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/angular/service/autoCompleteService.js"/>"></script>
+
+
+<link href="<c:url value="/resources/dist/autocomplete/jquery-ui.css"/>"
+	rel="stylesheet">
+<script
+	src="<c:url value="/resources/dist/autocomplete/jquery-ui.js" />"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script> -->
+
+
+<style type="text/css">
+.panel.with-nav-tabs .nav-tabs {
+	border-bottom: none;
+}
+
+.nv-legend {
+	transform: translate(-80px);
+}
+</style>
+
+</head>
+<body ng-app="myApp" ng-controller="GraphController"
+	data-ng-init="passCompanyNameMain('${FirstCompny.companyName }','${FirstCompny.companyCode }','${FirstCompny.companyId }')">
+
+	<div class="row" style="background-color: #ECF0F1;"
+		ng-controller="AutoCompleteController">
+		<div class="col-sm-12 col-md-12"
+			style="margin-top: 5px; margin-bottom: -10px; margin-left: -10px"
+			align="left">
+			<form
+				action="${pageContext.request.contextPath}/graphpattern/graph/detailsList"
+				method="post" novalidate name="form">
+				<div class="form-group col-sm-5 col-md-3">
+					<input type="hidden" name="companyName1"
+						ng-model="CommancompanyName" required> <input type="text"
+						id="automplete-2" name="companyName" placeholder="Search company"
+						class="form-control input-sm" ng-model="CommancompanyName"
+						ng-change="search2()">
+				</div>
+				<div class="col-sm-1 col-md-1">
+					<button ng-disabled="form.$invalid" type="submit"
+						class="btn btn-primary btn-sm">Search</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 0px; margin-bottom: 0px">
+		<div class="col-sm-12 col-md-12">
+			<marquee scrollamount="5"
+				style="margin-top: 0px; font-size: medium; font-family: sans-serif; color: black;">${news}</marquee>
+
+			<ul id="myCompany">
+				<c:forEach items="${LiveBSE }" var="liveBSE">
+					<li>&#10148; <font color="blue">${liveBSE.companyName }:</font>
+						${liveBSE.current_Value } <small><c:if
+								test="${liveBSE.chang_points <=0 }">
+								<font color="red">[&#9660;${liveBSE.chang_points }(${liveBSE.change_per }%)]</font>
+							</c:if> <c:if test="${liveBSE.chang_points >0 }">
+								<font color="green">[&#9650;${liveBSE.chang_points }(${liveBSE.change_per }%)]</font>
+							</c:if></small>
+					</li>
+				</c:forEach>
+			</ul>
+		</div>
+	</div>
+
+	<div class="wrapper">
+
+		<div class="col-sm-12 col-md-12" align="center" id="hideMe">
+			<c:if test="${not empty msg}">
+				<!-- <script type="text/javascript">
+				alert('${msg }');
+			</script> -->
+				<p align="center" style="color: red; font-size: x-large;">${msg }</p>
+				<p align="center" style="color: green; font-size: x-large;">
+					For Subscribe click here... <a
+						href="<c:url value="/subscription"/>"><u>Customer Area</u></a>
+			</c:if>
+			<c:if test="${not empty msgg}">
+				<p align="center" style="color: green; font-size: large;">
+					<b>${msgg }</b>
+				</p>
+			</c:if>
+			<c:if test="${not empty userUNSuccessResult}">
+				<p align="center" style="color: red; font-size: large;">
+					<b>${userUNSuccessResult}</b>
+				</p>
+			</c:if>
+		</div>
+
+
+		<div class="container">
+
+			<div class="row">
+				<h3
+					style="color: brown; font-weight: bolder; font-family: sans-serif;">
+					<i class="glyphicon glyphicon"></i> Welcome to Equityjudge
+				</h3>
+			</div>
+
+			<div class="row col-sm-12 col-md-12">
+				<p align="justify" style="color: gray; font-size: 15px">
+					<i class="glyphicon glyphicon-hand-right"></i>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Equityjudge is a product aimed
+					at serving the general investing community who are not expert in
+					taking decision with regard to equity investing.The Effort can be
+					described as "EQUITY INVESTMENT MADE EASY" in nut shell .The
+					investor can arrive at investment decision by using this platform
+					which will be well informed , sound and even better than the expert
+					advice. The suggestions made on the platform are devoid of
+					emotions, sentiments and any element of vested interest.
+				</p>
+			</div>
+			<br>
+
+
+
+			<div class="row">
+				<div class="col-sm-12 col-md-12">
+					<div class="col-sm-6 col-md-6">
+
+
+						<div class="box">
+							<div class="box-header with-border" align="center">
+								<h3 class="box-title">
+									<a href="#highlight" data-toggle="tab"> <%-- <font
+										ng-show="checkDate('${DailyHighlightDate }')"> --%> 
+											Highlights(<fmt:formatDate type="both" dateStyle="medium"
+														timeStyle="short" pattern="dd-MM-yyyy "
+														value="${DailyHighlightDate }" />)
+											<!-- ({{niraj.formingDate |date:'dd-MM-yyyy'}}) -->
+										
+											
+											
+											
+											
+														</font> <font ng-hide="checkDate('${DailyHighlightDate }')">
+											Highlights(<fmt:formatDate type="both" dateStyle="medium"
+														timeStyle="short" pattern="dd-MM-yyyy "
+														value="${DailyHighlightDate }" />)</font>
+									</a>
+								</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<div class="table-responsive">
+									<table class="table no-margin">
+										<thead>
+											<tr>
+												<th><a href="#"><span>CompanyName</span></a></th>
+												<th><a href="#" class="asc"><span>Suggestion</span></a></th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach items="${DailyHighlight }" var="dailyHighLight">
+												<tr>
+													<td><a
+														href="${pageContext.request.contextPath}/graphpattern/graph/selectCompnyDemo?companyName=${dailyHighLight.companyName }">${dailyHighLight.companyName }</td>
+													<td class="text-left"><span
+														class="label label-success">${dailyHighLight.suggestion }
+													</span></td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+								<!-- /.table-responsive -->
+							</div>
+							<!-- /.box-body -->
+						</div>
+					</div>
+
+
+
+					<div class="col-sm-6 col-md-6">
+
+						<div class="box">
+							<div class="box-header with-border" align="center">
+								<h3 class="box-title"
+									style="color: navy; font-weight: bold; margin-top: 0px;"
+									align="center">
+									<u>Equityjudge Offers</u>
+								</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body" style="min-height: 240px">
+								<ul style="font-size: medium; font-weight: bold;" type="square">
+									<li>Suggestions generated by algorithms based on pattern
+										recognition techniques.</li>
+									<li>Estimated success rate of our prediction is 80-100%.</li>
+									<li>Records of Portfolio for the subscriber is supported
+										up to capital gain calculation.</li>
+									<li>Suggestion can be used for buy/sell/hold decision even
+										by experts.</li>
+									<li>Every day new highlights are generating after market
+										hours.</li>
+									<li>Suggestion are generated daily on all listed stock.</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+			<div class="row col-sm-12 col-md-12">
+				<hr>
+				<p align="justify" style="color: gray; font-size: 15px">
+					<i class="glyphicon glyphicon-hand-right"></i>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; We believe this platform will
+					fill the vital gap in the available options to the investors. It
+					operates purely on in-house developed computer algorithms. These
+					are predictive algorithms developed on pattern recognition
+					techniques.
+				</p>
+				<hr>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-12 col-md-12">
+					<div class="col-md-6">
+						<div class="panel with-nav-tabs panel-default">
+							<div class="panel-heading">
+								<ul class="nav nav-tabs responsive">
+									<li class="active"><a href="#gainer" data-toggle="tab">Top
+											Gainer </a></li>
+									<li><a href="#loser" data-toggle="tab">Top Loser</a></li>
+									<li><a href="#turnover" data-toggle="tab">Top TurnOver</a></li>
+								</ul>
+							</div>
+
+							<div class="panel-body">
+								<div class="tab-content">
+									<div class="tab-pane fade in active" id="gainer">
+										<div class="table-responsive clearfix">
+											<h5 align="right"
+												style="margin-top: 0px; margin-bottom: -5px; color: gray; font-weight: bold;">
+												<u> <fmt:formatDate type="both" dateStyle="medium"
+														timeStyle="short" pattern="dd-MM-yyyy hh:mm a"
+														value="${Model.Gainer[0].auditDateTime }" />
+												</u>
+											</h5>
+											<table class="table table-hover">
+												<thead>
+													<tr>
+														<th><span>CompanyName</span></th>
+														<th><span>Price</span></th>
+														<th><span>Variation</span></th>
+														<th><span>% Var.</span></th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${Model.Gainer}" var="gainer">
+														<tr>
+															<td><a
+																href="${pageContext.request.contextPath}/graphpattern/graph/selectCompnyDemo?companyName=${gainer.companyName }">${gainer.companyName }</a></td>
+															<td style="color: black;" align="center">${gainer.current_Value}</td>
+															<td style="color: green;" align="center">+${gainer.chang_points}</td>
+															<td style="color: green;" align="center">+${gainer.change_per}</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+									<div class="tab-pane fade" id="loser">
+										<div class="table-responsive clearfix">
+											<h5 align="right"
+												style="margin-top: 0px; margin-bottom: -5px; color: gray; font-weight: bold;">
+												<u><fmt:formatDate type="both" dateStyle="medium"
+														timeStyle="short" pattern="dd-MM-yyyy hh:mm a"
+														value="${Model.Gainer[0].auditDateTime }" /></u>
+											</h5>
+											<table class="table table-hover">
+												<thead>
+													<tr>
+														<th><span>CompanyName</span></th>
+														<th><span>Price</span></th>
+														<th><span>Variation</span></th>
+														<th><span>% Var.</span></th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${Model.Loser}" var="loser">
+														<tr>
+															<td><a
+																href="${pageContext.request.contextPath}/graphpattern/graph/selectCompnyDemo?companyName=${loser.companyName }">${loser.companyName }</a></td>
+															<td style="color: black;" align="center">${loser.current_Value}</td>
+															<td style="color: red;" align="center">${loser.chang_points}</td>
+															<td style="color: red;" align="center">${loser.change_per}</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+									<div class="tab-pane fade" id="turnover">
+										<div class="table-responsive clearfix">
+											<h5 align="right"
+												style="margin-top: 0px; margin-bottom: -5px; color: gray; font-weight: bold;">
+												<u><fmt:formatDate type="both" dateStyle="medium"
+														timeStyle="short" pattern="dd-MM-yyyy hh:mm a"
+														value="${Model.Gainer[0].auditDateTime }" /></u>
+											</h5>
+											<table class="table table-hover">
+												<thead>
+													<tr>
+														<th><span>CompanyName</span></th>
+														<th><span>Price</span></th>
+														<th><span>TurnOver(Cr.)</span></th>
+														<th><span>Volume</span></th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${Model.TurnOver}" var="turnover">
+														<tr>
+															<td><a
+																href="${pageContext.request.contextPath}/graphpattern/graph/selectCompnyDemo?companyName=${turnover.companyName }">${turnover.companyName }</a></td>
+															<td style="color: black;" align="center">${turnover.current_Value}</td>
+															<td style="color: black;" align="center">${turnover.turnOver}</td>
+															<td style="color: black;" align="center">${turnover.volume}</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+					<div class="col-md-6"
+						style="border: 2px solid grey; border-radius: 5px; width: 450px; margin-left: 70px">
+						<h4 align="center" style="margin-bottom: -15px">
+							<i class="fa fa-line-chart fa-3X" aria-hidden="true"></i> MARKET
+							INDICES
+						</h4>
+						<hr>
+						<h5 style="margin-bottom: -15px; margin-top: -15px">
+							<font color="blue"><a
+								href="${pageContext.request.contextPath}/graphpattern/graph/selectCompnyDemo?companyName=${CompnyLiveBO.companyName }">${CompnyLiveBO.companyName}</a></font>
+							: ${CompnyLiveBO.current_Value }
+							<c:if test="${CompnyLiveBO.chang_points <=0 }">
+								<font color="red">[&#9660;${CompnyLiveBO.chang_points }(${CompnyLiveBO.change_per }%)]</font>
+							</c:if>
+							<c:if test="${CompnyLiveBO.chang_points >0 }">
+								<font color="green">[&#9650;${CompnyLiveBO.chang_points }(${CompnyLiveBO.change_per }%)]</font>
+							</c:if>
+						</h5>
+						<hr style="margin-bottom: 0px;">
+
+						<div class="panel panel-default col-sm-12 col-md-12">
+							<div class="col-sm-12 col-md-12"
+								style="height: 248px; width: 80%;">
+								<nvd3 options="options" data="data"
+									class="with-3d-shadow with-transitions" />
+
+							</div>
+							<div class="col-sm-12 col-md-12">
+								<table class="table table-responsive">
+									<tr>
+
+										<td style="font-size: 12px;" ng-repeat="option in optionss"><input
+											ng-change="changetoma()" ng-disabled="mv" type="checkbox"
+											ng-model="option.value">{{option.name}}</td>
+
+										<td>
+											<button type="button" ng-click="passCompanyNameMain(-3)"
+												class="btn btn-xs">GO</button>
+										</td>
+
+									</tr>
+
+								</table>
+							</div>
+						</div>
+
+					</div>
+
+
+
+
+
+
+
+
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>
