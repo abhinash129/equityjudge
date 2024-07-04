@@ -1,0 +1,22 @@
+.indent-small {
+	margin-left: 5px;
+}
+
+.form-group.internal {
+	margin-bottom: 0;
+}
+
+.dialog-panel {
+	margin: 10px;
+}
+
+.datepicker-dropdown {
+	z-index: 200 !important;
+}
+
+.panel-body { background-color: #ECF0F1;}
+
+label.control-label {
+	font-weight: 600;
+	color: #777;
+}
