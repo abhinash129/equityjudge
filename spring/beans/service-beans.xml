@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		 
+		 
+
+
+<bean id="cacheManager" class="com.nivesh.util.CacheManager" init-method="init">
+	<constructor-arg>
+			<map>
+				<entry key="COMPANY" value-ref="companyDataAccessorServiceImpl"/>
+				<entry key="PARAMETER" value-ref="parameterAccessorServiceImpl"/>
+			</map>
+	</constructor-arg>
+	
+	<property name="cache" ref="cache"></property>
+	<property name="companyCache" ref="companyCache"></property>
+	<property name="parameterCache" ref="parameterCache"></property>
+</bean>
+
+<bean id="cache" class="com.nivesh.util.Cache"/> 
+	 
+
+
+<bean id="companyCache" class="com.nivesh.util.CompanyCache"> 
+	<property name="cacheManager" ref="cacheManager"></property>
+</bean>
+
+<bean id="parameterCache" class="com.nivesh.util.ParameterCache"> 
+	<property name="cacheManager" ref="cacheManager"></property>
+</bean>
+
+<bean id="companyDataAccessorServiceImpl" class="com.nivesh.util.CompanyDataAccessorServiceImpl">
+	<property name="companydao" ref="companydao"/>
+</bean>
+
+<bean id="parameterAccessorServiceImpl" class="com.nivesh.util.ParameterAccessorServiceImpl">
+	<property name="parameterdao" ref="parameterdao"/>
+</bean>
+
+<bean id="moduleManager" class="com.nivesh.util.ModuleServiceHelperImpl" init-method="init">
+</bean>
+
+
+</beans>

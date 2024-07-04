@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+<annotation-driven />
+	<context:component-scan base-package="com.nivesh.controller,com.ds.controller" />
+
+	<resources mapping="/resources/**" location="/resources/" />
+
+
+	 <!-- <beans:bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<beans:property name="prefix" value="/WEB-INF/jsp/"></beans:property> <beans:property 
+		name="suffix" value=".jsp"></beans:property> </beans:bean>  -->
+
+	<beans:bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<beans:property name="order" value="0" />
+		<beans:property name="viewClass"
+			value="org.springframework.web.servlet.view.tiles2.TilesView" />
+		<beans:property name="exposeContextBeansAsAttributes"
+			value="true" />
+	</beans:bean>
+
+
+	<beans:bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+		<beans:property name="definitions">
+			<beans:list>
+				<beans:value>/WEB-INF/tiles.xml</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+	 <!--  here sandeep add interceptor -->
+	<interceptors>
+        <interceptor>
+            <mapping path="/**" />
+         <exclude-mapping path="/resources/**" />   
+          <exclude-mapping path="/getmodules/getFirstModules" /> 
+          <exclude-mapping path="/graphpattern/wholecompanydetails" />
+           <exclude-mapping path="/username" />
+            <exclude-mapping path="/email" />
+             <exclude-mapping path="/phone" />
+                
+             
+          
+         
+       <beans:bean class="com.nivesh.aspect.RequestProcessingTimeInterceptor"></beans:bean>
+        </interceptor>
+      
+    </interceptors>
+    
+
+	<!-- <view-controller path="/updatemodule/home" view-name="home" />
+	<view-controller path="/updatemodule/home" view-name="login" />
+	<view-controller path="/signup" view-name="successSignup" />
+	<view-controller path="/signup" view-name="signupError" />
+	<view-controller path="/login" view-name="successLogin" />
+	<view-controller path="/profile" view-name="profile.jsp" />
+	<view-controller path="/profileUpdate" view-name="profile.jsp" />
+	<view-controller path="/news/home" view-name="home" />
+	<view-controller path="/updatenews/home" view-name="home" />
+	<view-controller path="/javascriptdisabled" view-name="error" />
+	<view-controller path="/graphpattern/graph" view-name="home" />
+	<view-controller path="/parameter/parameterdata"
+		view-name="parameter" />
+	<view-controller path="/companydata" view-name="home" />
+	<view-controller path="/companydata/addstock"
+		view-name="portfoliodata" />
+
+	<view-controller path="/companydatas/portfoliohome" view-name="portfoliohome" />
+	<view-controller path="/companydatas1/sellstock"
+		view-name="sellstock" />
+
+
+	<view-controller path="/module" view-name="home" />
+	<view-controller path="/feature" view-name="home" />
+	<view-controller path="/role" view-name="home" />
+	<view-controller path="/paymentAuthenticate" view-name="userPaymentRequestInfo" />
+	<view-controller path="/suscribe" view-name="beforeLoginPayment" />
+	<view-controller path="/payment"  view-name="beforeLoginPayment"/>
+	<view-controller path="/paymentRedirect" view-name="userPaymentResponseInfo" />
+	<view-controller path="/refund" view-name="paymentRefund" />
+	<view-controller path="/refundInfoFrmDb" view-name="userRefundInfoFrmDb" />
+	<view-controller path="/refund/amount" view-name="successUserRefund" />
+ -->
+
+</beans:beans>
+ 
+ 
