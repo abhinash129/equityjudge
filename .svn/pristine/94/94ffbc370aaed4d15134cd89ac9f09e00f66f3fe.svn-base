@@ -1,0 +1,112 @@
+package com.nivesh.command.userprofile;
+
+import javax.validation.constraints.Size;
+
+public class UserProfileCommand {
+	
+	
+	
+	
+	private String userName;
+	@Size(max=20,message="Maximum 20 length allow")
+	private String firstName;
+	@Size(max=20,message="Maximum 20 length allow")
+	private String LastName;
+	private String occupation;
+	@Size(min=2,message="Minimum 2 Character")
+	private String addressLine;
+	private String state;
+	private String code;
+	private String country;
+	private String mobile;
+	@Size(min=6,max=30,message="Minimum 6 or Max 30 Character")
+	private String email;
+	
+	
+	private String firstLogin;
+	
+	
+	
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getFirstLogin() {
+		return firstLogin;
+	}
+	public void setFirstLogin(String firstLogin) {
+		this.firstLogin = firstLogin;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return LastName;
+	}
+	public void setLastName(String lastName) {
+		LastName = lastName;
+	}
+	public String getOccupation() {
+		return occupation;
+	}
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+	public String getAddressLine() {
+		return addressLine;
+	}
+	public void setAddressLine(String addressLine) {
+		this.addressLine = addressLine;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	
+	
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	
+	public String getMobile() {
+		return mobile;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	@Override
+	public String toString() {
+		return "UserProfileCommand [userName=" + userName + ", firstName=" + firstName + ", LastName=" + LastName
+				+ ", occupation=" + occupation + ", addressLine=" + addressLine + ", state=" + state + ", code=" + code
+				+ ", country=" + country + ", mobile=" + mobile + ", email=" + email + ", firstLogin=" + firstLogin
+				+ "]";
+	}
+
+	
+	
+	
+	
+	
+}

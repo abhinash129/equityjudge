@@ -1,0 +1,5 @@
+'use strict'
+var App = angular.module('myApp', [ 'nvd3' ]);
+'path'
+var path="http://localhost:8080/Nivesh_Development";
+//var path = "http://www.equityjudge.com";

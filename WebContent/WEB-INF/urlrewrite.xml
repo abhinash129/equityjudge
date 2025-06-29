@@ -1,0 +1,40 @@
+<!--  <urlrewrite>  
+<rule>
+              <name>Domain Name Check for equityjudge.com</name>
+                <condition name="host" operator="equal">^equityjudge.com</condition>
+               <from>^(.*)$</from>
+               <to type="redirect">http://www.equityjudge.com$1</to>
+      </rule>
+</urlrewrite>
+ -->
+<!--   <urlrewrite>
+    Rule to redirect all requests to the local Tomcat server at localhost:8080
+    <rule>
+        <name>Redirect all traffic to localhost</name>
+        <condition name="host" operator="equal">^.*$</condition>
+        <from>^(.*)$</from>
+        <to type="redirect">http://localhost:8080/Nivesh_Development$1</to>
+    </rule>
+</urlrewrite> -->
+<!-- <urlrewrite>
+    <rule>
+        <name>Redirect all traffic to localhost</name>
+        <condition name="host" operator="equal">^Nivesh_Development</condition>
+        <from>^(.*)$</from>
+        <to type="redirect">http://localhost:8080/Nivesh_Development$1</to>
+    </rule>
+</urlrewrite> -->
+
+
+
+<urlrewrite>
+    <rule>
+        <name>Redirect all traffic to the server IP</name>
+        <condition name="host" operator="equal">^Nivesh_Development</condition>
+        <from>^(.*)$</from>
+        <to type="redirect">http://192.168.0.148:8080/Nivesh_Development$1</to>
+    </rule>
+</urlrewrite>
+
+
+ 

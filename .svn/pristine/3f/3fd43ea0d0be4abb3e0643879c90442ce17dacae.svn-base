@@ -1,0 +1,28 @@
+package com.nivesh.command.algoefficacy;
+
+
+public class AlgoEfficacyCommand {
+	
+	private String dateofAlgo;
+	private String monthofAlgo;
+	
+	public String getDateofAlgo() {
+		return dateofAlgo;
+	}
+	public void setDateofAlgo(String dateofAlgo) {
+		this.dateofAlgo = dateofAlgo;
+	}
+	public String getMonthofAlgo() {
+		return monthofAlgo;
+	}
+	public void setMonthofAlgo(String monthofAlgo) {
+		this.monthofAlgo = monthofAlgo;
+	}
+	@Override
+	public String toString() {
+		return "AlgoEfficacyCommand [dateofAlgo=" + dateofAlgo + ", monthofAlgo=" + monthofAlgo + "]";
+	}
+	
+	
+
+}

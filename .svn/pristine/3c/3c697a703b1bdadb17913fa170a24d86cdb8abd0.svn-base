@@ -1,0 +1,46 @@
+package com.nivesh.command.security;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+public class ModuleInsertCommand {
+
+	@NotEmpty(message = "Module Name is Required...")
+//	@Pattern(regexp = "", message="Must be alphabetic")
+	private String modulename;
+	
+	private String description;
+	private String moduleId;
+	private String status;
+	
+	
+	
+
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getModulename() {
+		return modulename;
+	}
+	public void setModulename(String modulename) {
+		this.modulename = modulename;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getModuleId() {
+		return moduleId;
+	}
+	public void setModuleId(String moduleId) {
+		this.moduleId = moduleId;
+	}
+
+	
+	
+	
+}

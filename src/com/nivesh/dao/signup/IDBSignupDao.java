@@ -1,0 +1,32 @@
+package com.nivesh.dao.signup;
+
+import java.util.List;
+
+import com.nivesh.bo.UserLogBO;
+import com.nivesh.bo.UserMstrBO;
+import com.nivesh.dao.IDao;
+
+public interface IDBSignupDao extends IDao {
+
+	List find();
+
+	int create(Object object);
+
+	public int isUName_Authenticate(UserLogBO userLogBO);
+
+	public int insert(Object obj);
+
+	int isEmail_Authenticate(UserMstrBO userMstrBO);
+
+	int isPhone_Authenticate(String phoneNO);
+
+	int updateemailAddress(String email, String uname);
+
+	int updatePhoneNo(String mobile, String uname);
+
+	int insertGuest(UserMstrBO userMstrBO);
+
+	int insertGuest(UserLogBO userLogBO);
+
+
+}

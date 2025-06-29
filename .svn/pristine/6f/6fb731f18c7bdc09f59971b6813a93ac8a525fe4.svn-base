@@ -1,0 +1,59 @@
+package com.nivesh.command.dashboard;
+
+import javax.validation.constraints.Size;
+
+public class ContactUsCommand {
+	
+	@Size(max=12,message="Maximum 12 length allow")
+	private String fname;
+	@Size(max=12,message="Maximum 12 length allow")
+	private String lname;
+	@Size(max=25,message="Maximum 25 length allow")
+	private String email;
+	@Size(max=15,message="Maximum 15 length allow")
+	private String phone;
+	@Size(max=50,message="Maximum 50 length allow")
+	private String message;
+	
+	
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+	public String getLname() {
+		return lname;
+	}
+	public void setLname(String lname) {
+		this.lname = lname;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	@Override
+	public String toString() {
+		return "ContactUsCommand [fname=" + fname + ", lname=" + lname + ", email=" + email + ", phone=" + phone
+				+ ", message=" + message + "]";
+	}
+	
+
+	
+	
+
+}

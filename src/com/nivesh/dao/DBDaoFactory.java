@@ -1,0 +1,110 @@
+package com.nivesh.dao;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+
+import com.nivesh.dao.algoefficacy.AlgoEfficacyDaoImpl;
+import com.nivesh.dao.dashboard.DBDashboardDaoImpl;
+import com.nivesh.dao.login.DBLoginDaoImpl;
+import com.nivesh.dao.masterdatasetup.CompanyDao;
+import com.nivesh.dao.masterdatasetup.NewsDaoImpl;
+import com.nivesh.dao.masterdatasetup.ParameterAccessorDaoImpl;
+import com.nivesh.dao.masterdatasetup.ParameterDaoImpl;
+import com.nivesh.dao.masterdatasetup.SubscriptionPriceDao;
+import com.nivesh.dao.payment.DBPaymentDaoImpl;
+import com.nivesh.dao.portfolio.DBBuyStockDaoImp;
+import com.nivesh.dao.portfolio.DBSellStockDaoImpl;
+import com.nivesh.dao.security.DBFeatureDaoImpl;
+import com.nivesh.dao.security.DBModuleDaoImpl;
+import com.nivesh.dao.security.DBRoleDaoImpl;
+import com.nivesh.dao.security.DBUserModuleMapDaoImpl;
+import com.nivesh.dao.signup.DBSignupDaoImpl;
+import com.nivesh.dao.userprofile.DBUserProfileDaoImpl;
+import com.nivesh.dao.wachlist.WatchListDaoImpl;
+
+public abstract class DBDaoFactory implements IDaoFactory,Cloneable{
+	
+	private JdbcTemplate jdbcTemplate;
+	private NamedParameterJdbcTemplate npjt;
+	private SimpleJdbcCall simplejdbccall;
+	private static volatile DBDaoFactory dbDaoFactory;
+	
+	private DBDaoFactory(JdbcTemplate jdbcTemplate,NamedParameterJdbcTemplate npjt,SimpleJdbcCall simplejdbccall) {
+		this.jdbcTemplate = jdbcTemplate;
+		this.npjt=npjt;
+		this.simplejdbccall=simplejdbccall;
+	}
+
+
+	public  IDao getDaoObject(String name){
+		IDao iDao=null;
+		switch(name){
+		
+		case "IDBDASHBOARD":iDao=new DBDashboardDaoImpl(jdbcTemplate,npjt);break;
+		
+		case "LOGINDAO":iDao=new DBLoginDaoImpl(jdbcTemplate,npjt);break;
+		
+		case "SIGNUPDAO" :iDao=new DBSignupDaoImpl(jdbcTemplate,npjt);break;
+		
+		case "NEWSDAO":iDao=new NewsDaoImpl(jdbcTemplate);break;
+		
+		case "USERPROFILEDAO":iDao=new DBUserProfileDaoImpl(jdbcTemplate,npjt);break;
+		
+		case "COMANYDAO":iDao=new CompanyDao(jdbcTemplate,npjt);break;
+		
+		case "PARAMETERDAO":iDao=new ParameterDaoImpl(jdbcTemplate,npjt);break;
+		
+		case "PAREMETERCACHEDAO":iDao=new ParameterAccessorDaoImpl(jdbcTemplate);break;
+		
+		case "SUBSCRIPTIONPRICEDAO":iDao=new SubscriptionPriceDao(jdbcTemplate,npjt);break;
+		
+		
+        case "MODULEDAO":iDao=new DBModuleDaoImpl(jdbcTemplate, npjt);break;
+		
+		case "FEATUREDAO":iDao=new DBFeatureDaoImpl(jdbcTemplate, npjt);break;
+		
+		case "ROLEDAO":iDao=new DBRoleDaoImpl(jdbcTemplate, npjt);break;
+
+		case "USERMODULEMAPDAO":iDao=new DBUserModuleMapDaoImpl(jdbcTemplate, npjt);break;
+		
+		case "WATCHLISTDAO":iDao = new WatchListDaoImpl(jdbcTemplate, npjt, simplejdbccall);break;
+		
+	
+		case "BUYSTOCKDAO":iDao=new DBBuyStockDaoImp(jdbcTemplate, simplejdbccall);break;
+		case "SELLSTOCKDAO":iDao=new DBSellStockDaoImpl(jdbcTemplate, simplejdbccall);break; //this on 18jan
+		case "PAYMENTDAO":iDao=new DBPaymentDaoImpl(jdbcTemplate, simplejdbccall);break; //this on 18jan
+		
+		case "ALGOEFFICACYDAO":iDao=new AlgoEfficacyDaoImpl(jdbcTemplate, simplejdbccall);break; //this on 18jan
+		
+	
+		
+		}
+		return iDao;
+		
+	}
+	
+	
+	public static DBDaoFactory getInstance(JdbcTemplate jdbcTemplate,NamedParameterJdbcTemplate npjt,SimpleJdbcCall simplejdbccall){
+		if(dbDaoFactory==null){
+			synchronized (DBDaoFactory.class) {
+				if(dbDaoFactory==null)
+						dbDaoFactory=new DBDaoFactory(jdbcTemplate,npjt,simplejdbccall){
+					
+				};
+			}
+		}	
+		
+		return dbDaoFactory;
+	}
+	
+	public Object readresolve(){
+		return dbDaoFactory;
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return dbDaoFactory;
+	}
+}

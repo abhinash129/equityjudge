@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- enable the configuration of transactional behavior based on annotations -->
+
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<!-- a PlatformTransactionManager is still required -->
+
+	<!-- here import resource to get data source -->
+	<!-- <import resource="persistence-beans.xml"/> -->
+
+
+	<!-- this is the service object that we want to make transactional -->
+	<!-- <bean id="fooService" class="x.y.service.DefaultFooService"/> -->
+
+	<!-- here we r configurating transaction mangement class -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+
+		<!-- (this dependency is defined somewhere else) -->
+		<property name="dataSource" ref="datasource" />
+	</bean>
+
+
+
+	<bean id="logAspect" class="com.nivesh.aspect.NiveshAspect" />
+	<!-- <aop:config> -->
+	<!-- this advice will execute around the transactional advice -->
+	<!-- <aop:aspect id="aspectLoggging" ref="logAspect"> -->
+	<!-- <aop:pointcut id="pointcut1" -->
+	<!-- expression="within(com.nivesh.service..*)"/> -->
+	<!-- <aop:around method="transactionManagement" pointcut-ref="pointcut1"/> -->
+	<!-- </aop:aspect> -->
+	<!-- </aop:config> -->
+
+
+	<aop:config>
+
+		<aop:aspect id="aspectLoggging" ref="logAspect">
+
+
+			<aop:pointcut id="pointCut" expression="within(com.nivesh.service..*)" />
+
+
+			<aop:after-returning method="afterReturn"
+				returning="result" pointcut-ref="pointCut" />
+			<aop:around method="profile" pointcut-ref="pointCut" />
+			<aop:around method="transactionManagement" pointcut-ref="pointCut" />
+			<aop:after-throwing method="logAfterThrowing"
+				throwing="error" pointcut-ref="pointCut" />
+
+		</aop:aspect>
+
+	</aop:config>
+
+
+</beans>

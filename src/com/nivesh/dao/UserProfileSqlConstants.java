@@ -1,0 +1,12 @@
+package com.nivesh.dao;
+
+public class UserProfileSqlConstants {
+
+	
+		public static final String SQL_USERSPECIFIC_INFO="SELECT UNAME,FIRSTNAME,LASTNAME,OCCUPATION,ADDRESSLINE,STATE,COUNTRY,PH_NO,EMAIL_ID FROM niv_usermstr WHERE UNAME=?";
+		public static final  String SQL_INSERT_USERSPECIFICINFO="UPDATE niv_usermstr SET FIRSTNAME=?,LASTNAME=?,OCCUPATION=?,"
+				+ "ADDRESSLINE=?,STATE=?,COUNTRY=?,PH_NO=?,EMAIL_ID=?,ACTIVE=?,AUDIT_ACTION=?,AUDIT_DATE_TIME=?,USERID=? WHERE UNAME=?";
+	    public static final String SQL_UPDATE_FIRSTLOGIN="UPDATE niv_userlog SET FIRST_LOGIN=? WHERE UNAME=? ";
+
+	
+}

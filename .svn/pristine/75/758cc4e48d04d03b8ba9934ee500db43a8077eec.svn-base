@@ -1,0 +1,58 @@
+package com.nivesh.command.security;
+
+public class UserRoleModuleInsertCommand {
+	
+	private String userroleid[];
+	private String roleid[];
+	private String uname[];
+	private String moduleid[];
+	private String featureid[];
+	private String comments[];
+	private String status[];
+	public String[] getUserroleid() {
+		return userroleid;
+	}
+	public void setUserroleid(String[] userroleid) {
+		this.userroleid = userroleid;
+	}
+	public String[] getRoleid() {
+		return roleid;
+	}
+	public void setRoleid(String[] roleid) {
+		this.roleid = roleid;
+	}
+	public String[] getUname() {
+		return uname;
+	}
+	public void setUname(String[] uname) {
+		this.uname = uname;
+	}
+	public String[] getModuleid() {
+		return moduleid;
+	}
+	public void setModuleid(String[] moduleid) {
+		this.moduleid = moduleid;
+	}
+	public String[] getFeatureid() {
+		return featureid;
+	}
+	public void setFeatureid(String[] featureid) {
+		this.featureid = featureid;
+	}
+	public String[] getComments() {
+		return comments;
+	}
+	public void setComments(String[] comments) {
+		this.comments = comments;
+	}
+	public String[] getStatus() {
+		return status;
+	}
+	public void setStatus(String[] status) {
+		this.status = status;
+	}
+	
+	
+	
+
+}

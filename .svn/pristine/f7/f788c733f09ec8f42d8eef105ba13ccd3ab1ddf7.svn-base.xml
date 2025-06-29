@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+ 
+ 
+ 
+ 
+   <bean id="datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+
+        <property name="driverClass" value="${jdbc.driverClassName}" />
+
+        <property name="jdbcUrl" value="${jdbc.employee_db_url}" />
+
+        <property name="user" value="${jdbc.username}" />
+
+        <property name="password" value="${jdbc.password}" />
+
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+
+        <property name="minPoolSize" value="${jdbc.minPoolSize}" />
+
+        <property name="maxStatements" value="${jdbc.maxStatements}" />
+
+        <property name="testConnectionOnCheckout" value="${jdbc.testConnection}" />
+
+    </bean>  
+    
+    
+    
+    
+    
+    
+   
+   <!--  <bean id="datasource" class="org.springframework.jndi.JndiObjectFactoryBean">
+  <property name="jndiName" value="java:comp/env/jdbc/datasource"/>
+  <property name="lookupOnStartup" value="true"/>
+  <property name="proxyInterface" value="javax.sql.DataSource"/>
+  </bean> -->
+
+
+
+
+
+
+
+<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="datasource"></constructor-arg>
+</bean>
+
+<bean id="npjt" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg ref="datasource"></constructor-arg>
+</bean>
+
+<bean id="simplejdbccall" class="org.springframework.jdbc.core.simple.SimpleJdbcCall">
+		<constructor-arg ref="datasource"></constructor-arg>
+</bean>
+
+<bean id="DBDaoFactory" class="com.nivesh.dao.DBDaoFactory" factory-method="getInstance" >
+	<constructor-arg ref="jdbcTemplate"/>
+	<constructor-arg ref="npjt"/>
+	<constructor-arg ref="simplejdbccall"></constructor-arg>
+</bean>
+
+<bean id="dbLoginDaoImpl" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="LOGINDAO"/>
+</bean>
+<bean id="newsdao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="NEWSDAO"/>
+</bean>
+
+<bean id="idbSignupDao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="SIGNUPDAO"/>
+</bean>
+<bean id="userProfileDaoImpl" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="USERPROFILEDAO"/>
+</bean>
+
+<bean id="companydao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="COMANYDAO"/>
+</bean>
+
+<bean id="iParameterDao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="PARAMETERDAO"/>
+</bean>
+
+<bean id="parameterdao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="PAREMETERCACHEDAO"/>
+</bean>
+
+<bean id="iSubscriptionPriceDao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="SUBSCRIPTIONPRICEDAO"/>
+</bean>
+
+
+
+<bean id="dbcompanydao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="COMPANYLIST"/>
+</bean> 
+
+<bean id="iDBPortdataDao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+         <constructor-arg value="PORTFOLIO"></constructor-arg>
+</bean>
+
+<bean id="dbmoduledao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="MODULEDAO"/>
+</bean> 
+
+<bean id="dbfeaturedao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="FEATUREDAO"/>
+</bean> 
+
+<bean id="dbroledao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="ROLEDAO"/>
+</bean> 
+
+<bean id="dbusermodulemapdao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="USERMODULEMAPDAO"/>
+</bean> 
+
+<bean id="iDBBuyStockDao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="BUYSTOCKDAO"/>
+</bean>
+
+<bean id="idbDashboardDao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="IDBDASHBOARD"/>
+</bean>
+
+<bean id="iDBSellStockDao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="SELLSTOCKDAO"/>
+</bean>
+
+<bean id="iWatchListDao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="WATCHLISTDAO"/>
+</bean>
+<bean id="iDBPaymentDao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="PAYMENTDAO"/>
+</bean>
+<bean id="iAlgoEfficacyDao" factory-method="getDaoObject" factory-bean="DBDaoFactory">
+		<constructor-arg value="ALGOEFFICACYDAO"/>
+</bean>
+    
+    <!-- this is for Resttemplate test confuguration -->
+
+
+       
+  <bean id="RestTemplateFactory" class="com.nivesh.util.RestTemplateFactory" factory-method="getInstance" >
+	<constructor-arg ref="restTemplate"/>
+</bean>
+     
+     <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <constructor-arg>
+            <bean class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+                <property name="readTimeout" value="630000" />
+                <property name="connectTimeout" value="30000" />
+               </bean>
+           
+        </constructor-arg>
+    </bean>
+      
+     
+     
+  
+<bean id="iInstamojoPaymentService" factory-method="getRestObject" factory-bean="RestTemplateFactory">
+		<constructor-arg value="PAYMENT"/>
+</bean>
+
+
+
+
+
+<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<property name="dataSource" ref="datasource" />
+</bean>
+
+<bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+	<property name="transactionManager" ref="transactionManager" />
+</bean>
+
+<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+	<property name="jobRepository" ref="jobRepository" />
+</bean>
+	
+
+
+</beans>

@@ -1,0 +1,39 @@
+package com.nivesh.command.security;
+
+public class UserRoleInsertCommand 
+{
+
+	private String uname[];
+	private String roleid[];
+	private String description[];
+	private String Status[];
+	
+
+	public String[] getUname() {
+		return uname;
+	}
+	public void setUname(String[] uname) {
+		this.uname = uname;
+	}
+	public String[] getRoleid() {
+		return roleid;
+	}
+	public void setRoleid(String[] roleid) {
+		this.roleid = roleid;
+	}
+	public String[] getDescription() {
+		return description;
+	}
+	public void setDescription(String[] description) {
+		this.description = description;
+	}
+	public String[] getStatus() {
+		return Status;
+	}
+	public void setStatus(String[] status) {
+		Status = status;
+	}
+	
+	
+	
+}

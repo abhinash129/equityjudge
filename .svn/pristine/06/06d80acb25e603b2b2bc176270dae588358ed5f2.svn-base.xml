@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE tiles-definitions PUBLIC  
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"  
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+
+<tiles-definitions>
+
+
+	<definition name="login" template="/WEB-INF/jsp/template2.jsp">
+		<put-attribute name="header2" value="/WEB-INF/jsp/header2.jsp" />
+		<put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
+	</definition>
+
+
+<definition name="algoEfficacy" extends="login">
+		<put-attribute name="body" value="/WEB-INF/jsp/algoEfficacy.jsp" />
+	</definition>
+	
+	<definition name="algoEfficacy" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/algoEfficacy.jsp" />
+	</definition>
+	
+	<definition name="javascriptdisabled" template="/WEB-INF/jsp/error.jsp" />
+
+	<definition name="subscription" extends="login">
+		<put-attribute name="body" value="/WEB-INF/jsp/subscription.jsp" />
+	</definition>
+
+	<definition name="aboutus" extends="login">
+		<put-attribute name="body" value="/WEB-INF/jsp/aboutus.jsp" />
+	</definition>
+
+	<definition name="contactus" extends="login">
+		<put-attribute name="body" value="/WEB-INF/jsp/contactus2.jsp" />
+	</definition>
+	<definition name="signupHome" extends="login">
+		<put-attribute name="body" value="/WEB-INF/jsp/signup.jsp" />
+	</definition>
+	<definition name="loginfirstPortfolio" extends="login">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/loginpagePortfolio.jsp" />
+	</definition>
+	<definition name="loginfirstTrend" extends="login">
+		<put-attribute name="body" value="/WEB-INF/jsp/loginpageTrend.jsp" />
+	</definition>
+	<definition name="portfoliodemohome" extends="login">
+		<put-attribute name="body" value="/WEB-INF/jsp/portfolioDemo.jsp" />
+	</definition>
+
+	<!-- payment gateway -->
+	<definition name="beforeLoginPayment" extends="login">
+		<put-attribute name="body" value="/WEB-INF/jsp/paymentOption.jsp" />
+	</definition>
+
+	<!-- after login refund -->
+	<definition name="paymentRefund" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/paymentRefund.jsp" />
+	</definition>
+	<definition name="userRefundInfoFrmDb" extends="home">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/userRefundInfoFrmDb.jsp" />
+	</definition>
+	<definition name="successUserRefund" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/successUserRefund.jsp" />
+	</definition>
+	<definition name="displaygraphdetailsList" extends="login">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/searchCompanyList2.jsp" />
+	</definition>
+
+
+	<!-- payment authenticate -->
+	<definition name="userPaymentRequestInfo" extends="login">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/userPaymentRequestInfo.jsp" />
+	</definition>
+	<!-- payment redirect -->
+	<definition name="userPaymentResponseInfo" extends="login">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/userPaymentResponseInfo.jsp" />
+	</definition>
+
+
+	<definition name="home" template="/WEB-INF/jsp/template.jsp">
+		<put-attribute name="header" value="/WEB-INF/jsp/header.jsp" />
+		<put-attribute name="body" value="/WEB-INF/jsp/home.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
+	</definition>
+	<definition name="afterLoginPayment" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/paymentOption.jsp" />
+	</definition>
+
+	<definition name="successSignup" template="/WEB-INF/jsp/successSignup.jsp" />
+
+	<definition name="signupError" template="/WEB-INF/jsp/template.jsp">
+		<put-attribute name="body" value="/WEB-INF/jsp/signupError.jsp"></put-attribute>
+	</definition>
+	<definition name="portfoliodemo" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/portfolioDemo.jsp" />
+	</definition>
+
+	<definition name="successLogin" extends="home">
+		<put-attribute name="header" value="/WEB-INF/jsp/header.jsp" />
+	</definition>
+
+	<definition name="profile" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/profile.jsp" />
+	</definition>
+
+	<definition name="portfolio_history" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/portfolio_history.jsp" />
+	</definition>
+
+	<definition name="setting" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/setting.jsp" />
+	</definition>
+
+	<definition name="successProfileUpdate" extends="home">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/successProfileUpdate.jsp" />
+	</definition>
+
+	<definition name="gainerORloserDisplay" extends="home">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/gainerOrLoserListDisplay.jsp" />
+	</definition>
+
+
+	<definition name="subscriptionHome" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/subscription.jsp" />
+	</definition>
+
+
+
+	<definition name="aboutUsHome" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/aboutus.jsp" />
+	</definition>
+	<definition name="contactUsHome" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/contactus.jsp" />
+	</definition>
+
+
+	<definition name="beforeLoginPayment" extends="login">
+		<put-attribute name="body" value="/WEB-INF/jsp/paymentOption.jsp" />
+	</definition>
+
+
+	<definition name="unSuccessProfileUpdate" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/home.jsp" />
+	</definition>
+	<definition name="newsinsert" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/newsinsert.jsp" />
+	</definition>
+	<definition name="updatenews" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/updatenews.jsp" />
+	</definition>
+
+	<definition name="SubscriptionPriceHome" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/subscriptionPrice.jsp" />
+	</definition>
+
+	<definition name="error" template="/WEB-INF/jsp/error.jsp" />
+
+	<definition name="termsandconditions" template="/WEB-INF/jsp/terms-and-conditions.jsp" />
+	<definition name="disclaimer" template="/WEB-INF/jsp/disclaimer.jsp" />
+
+
+
+	<definition name="displaygraph" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/displaygraph.jsp" />
+	</definition>
+
+	<definition name="accuracuCheck" extends="home">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/patternAccuracyReport.jsp" />
+	</definition>
+
+
+	<definition name="displaygraphdetails" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/searchCompanyList.jsp" />
+	</definition>
+
+
+	<definition name="ModuleHome" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/modulesearch.jsp" />
+	</definition>
+	<definition name="ModuleCreate" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/moduledetails.jsp" />
+	</definition>
+
+	<definition name="moduleedit" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/moduleedit.jsp" />
+	</definition>
+
+
+
+
+	<definition name="FeatureHome" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/featuresearch.jsp" />
+	</definition>
+	<definition name="FeatureInsert" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/featuredetails.jsp" />
+	</definition>
+	<definition name="FeatureEdit" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/featureedit.jsp" />
+	</definition>
+
+
+
+
+	<definition name="RoleHome" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/rolesearch.jsp" />
+	</definition>
+	<definition name="RoleInsert" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/roledetails.jsp" />
+	</definition>
+	<definition name="RoleEdit" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/roleedit.jsp" />
+	</definition>
+	<definition name="UserRoleEdit" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/userroleedit.jsp" />
+	</definition>
+
+
+
+	<definition name="UserRoleModuleHome" extends="home">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/usermodulemapsearch.jsp" />
+	</definition>
+	<definition name="CreateUserRoleModule" extends="home">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/usermodulemapdetails.jsp" />
+	</definition>
+	<definition name="UserRoleModuleEdit" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/usermodulemapedit.jsp" />
+	</definition>
+
+
+
+	<definition name="parameter" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/parameter.jsp" />
+	</definition>
+
+	<definition name="CompanySearch" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/buystock.jsp" />
+	</definition>
+
+	<definition name="portfolioHome" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/portfoliohome.jsp" />
+	</definition>
+
+	<definition name="Sellportfoliodata" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/sellstock.jsp" />
+	</definition>
+
+
+	<definition name="portfoliodata" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/portfoliodata.jsp" />
+	</definition>
+
+	<definition name="SellingShare" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/sell.jsp" />
+	</definition>
+
+	<definition name="latestpatternreport" extends="home">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/latestPatternReport.jsp" />
+	</definition>
+
+	<definition name="report" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/suggestionReport.jsp" />
+	</definition>
+
+
+	<definition name="watchlisthome" extends="home">
+		<put-attribute name="body" value="/WEB-INF/jsp/watchlist.jsp" />
+	</definition>
+
+</tiles-definitions>

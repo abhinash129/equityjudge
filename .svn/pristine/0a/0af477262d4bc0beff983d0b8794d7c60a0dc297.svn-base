@@ -1,0 +1,149 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<html ng-app="myApp">
+
+<script type="text/javascript"
+	src="<c:url value="/resources/angular/controller/patternReportController.js"/>"></script>
+
+<script type="text/javascript"
+	src="<c:url value="/resources/angular/service/patternReportService.js"/>"></script>
+
+
+
+<body ng-controller="ReportController"
+	data-ng-init="LoadSuggestionReport()">
+	<div class="wrapper">
+		<!-- Content Header (Page header) -->
+		<!-- Main content -->
+		<section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header">
+							<div class="col-md-6">
+								<h3 class="box-title">Latest Algorithmic Prediction</h3>
+							</div>
+							<div class="col-md-6" align="right"><h4><u>${formingDate }</u></h4></div>
+
+						</div>
+						<!-- /.box-header -->
+						<form>
+							<div class="form-group col-md-4">
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-search"></i>
+									</div>
+									<input type="text" class="form-control"
+										placeholder="Search Company Name" ng-model="searchCompany">
+								</div>
+							</div>
+						</form>
+
+						<div class="box-body">
+							<table id="example2" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<td><a href="#"
+											ng-click="sortType = 'Sr_No'; sortReverse = !sortReverse">
+												Sr_No <span ng-show="sortType == 'Sr_No' && !sortReverse"
+												class="fa fa-caret-down"></span> <span
+												ng-show="sortType == 'Sr_No' && sortReverse"
+												class="fa fa-caret-up"></span>
+										</a></td>
+										<td><a href="#"
+											ng-click="sortType = 'COMPANYNAME'; sortReverse = !sortReverse">
+												COMPANYNAME <span
+												ng-show="sortType == 'COMPANYNAME' && !sortReverse"
+												class="fa fa-caret-down"></span> <span
+												ng-show="sortType == 'COMPANYNAME' && sortReverse"
+												class="fa fa-caret-up"></span>
+										</a></td>
+										<td><a href="#"
+											ng-click="sortType = 'PATTERN_NAME'; sortReverse = !sortReverse">
+												PATTERN_NAME <span
+												ng-show="sortType == 'PATTERN_NAME' && !sortReverse"
+												class="fa fa-caret-down"></span> <span
+												ng-show="sortType == 'PATTERN_NAME' && sortReverse"
+												class="fa fa-caret-up"></span>
+										</a></td>
+										<td><a href="#"
+											ng-click="sortType = 'SUGGESTION'; sortReverse = !sortReverse">
+												SUGGESTION <span
+												ng-show="sortType == 'SUGGESTION' && !sortReverse"
+												class="fa fa-caret-down"></span> <span
+												ng-show="sortType == 'SUGGESTION' && sortReverse"
+												class="fa fa-caret-up"></span>
+										</a></td>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr
+										ng-repeat="roll in latestReportData | orderBy:sortType:sortReverse | filter:searchCompany">
+										<td>{{ roll.Sr_No }}</td>
+										<td><a
+											href="${pageContext.request.contextPath}/graphpattern/graph/selectCompny?companyName={{ roll.COMPANYNAME }}"><font
+												color="black">{{ roll.COMPANYNAME }}</font></td>
+										<td>{{ roll.PATTERN_NAME }}</td>
+										<td>{{ roll.SUGGESTION }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- /.box-body -->
+					</div>
+					<!-- /.box -->
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+
+
+			<!-- 
+
+			<div class="row">
+				<div class="col-sm-5">
+					<div class="dataTables_info" id="example2_info" role="status"
+						aria-live="polite">Showing 1 to 10 of 57 entries</div>
+				</div>
+				<div class="col-sm-7">
+					<div class="dataTables_paginate paging_simple_numbers"
+						id="example2_paginate" style="margin-top: 0px;">
+						<ul class="pagination">
+							<li class="paginate_button previous disabled"
+								id="example2_previous"><a href="#"
+								aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a></li>
+							<li class="paginate_button active"><a href="#"
+								aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li>
+							<li class="paginate_button "><a href="#"
+								aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li>
+							<li class="paginate_button "><a href="#"
+								aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li>
+							<li class="paginate_button "><a href="#"
+								aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li>
+							<li class="paginate_button "><a href="#"
+								aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li>
+							<li class="paginate_button "><a href="#"
+								aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li>
+							<li class="paginate_button next" id="example2_next"><a
+								href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">Next</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+ -->
+
+
+		</section>
+		<!-- /.content -->
+	</div>
+	<!-- /.wrapper -->
+</body>
+</html>
+
+
+
+
+
+
+

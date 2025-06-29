@@ -1,0 +1,109 @@
+package com.nivesh.command.signup;
+
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+
+
+public class SignupCommand {
+	
+	
+	
+	@Override
+	public String toString() {
+		return "SignupCommand [title=" + title + ", userName=" + userName + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", phoneNo=" + phoneNo + ", emailAddress=" + emailAddress + ", password=" + password
+				+ ", confirmPassword=" + confirmPassword + ", code=" + code + ", reachUs=" + reachUs + "]";
+	}
+	private String title;
+	@NotEmpty (message="userName is required")
+	@Size(max=30,message="Maximum 30 length allow")
+	private String userName;
+	@NotEmpty (message="firstName is required")
+	@Size(max=16,message="Maximum 16 length allow")
+	private String firstName;
+	@NotEmpty (message="lastName is required")
+	@Size(max=16,message="Maximum 16 length allow")
+	private String lastName; 
+	@NotEmpty (message="Phone Number is required")
+	@Size(min=10, message="Minimum 10 digit required for phone number" ) 
+    private String phoneNo;
+	@NotEmpty (message="email Address is required")
+	@Size(min=12,max=35,message="Minimum 12 or Max 35 Character")
+	private String emailAddress;
+	@NotEmpty (message="Password is required")
+	@Size(min=6,max=20,message="Minimum 6 or Max 20 Character")
+    private String password;
+	@NotEmpty (message="confirm Password is required")
+    private String confirmPassword;
+    private String code;
+    private String reachUs;
+    
+    
+    
+	public String getReachUs() {
+		return reachUs;
+	}
+	public void setReachUs(String reachUs) {
+		this.reachUs = reachUs;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getFirstName() {
+		
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		
+		this.firstName = firstName;
+	}
+	
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getPhoneNo() {
+			return phoneNo;
+	}
+	public void setPhoneNo(String phoneNo) {
+			this.phoneNo = "0"+phoneNo;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+}

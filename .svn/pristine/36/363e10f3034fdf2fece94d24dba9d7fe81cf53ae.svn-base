@@ -1,0 +1,487 @@
+package com.nivesh.dao.masterdatasetup;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import com.nivesh.bo.ActiveCompanyListBO;
+import com.nivesh.bo.CompanyStockDetailsBO;
+import com.nivesh.bo.DailyPatternReportBO;
+import com.nivesh.bo.GainerLoserBO;
+import com.nivesh.bo.LiveBSESensexBO;
+import com.nivesh.dao.AccessorSqlConstant;
+import com.nivesh.dao.LiveDataSqlConstant;
+import com.nivesh.dao.LoginSqlConstants;
+import com.nivesh.dao.PortfolioSqlConstants;
+import com.nivesh.dao.SuggestionReportSqlConstant;
+import com.nivesh.util.DateHelper;
+
+
+public class CompanyDao implements ICompanyDao {
+	private JdbcTemplate jdbcTemplate;
+	private NamedParameterJdbcTemplate npjt;
+	DecimalFormat dfm = new DecimalFormat("#.00");
+	public CompanyDao(JdbcTemplate jdbcTemplate,NamedParameterJdbcTemplate npjt) {  //here i add NamedParameterJdbcTemplate npjt 1 march
+		super();
+		this.jdbcTemplate = jdbcTemplate;
+		this.npjt = npjt;   //add this on 1march
+	}
+
+	@Override
+	public Set<CompanyStockDetailsBO> getCompanyList(String companyCode) {
+		return jdbcTemplate.query(AccessorSqlConstant.COMPANY_ACCESSOR_SQL,new Object[]{companyCode},
+				new CompanyAccessorExtractor());
+	}
+
+	private class CompanyAccessorExtractor implements ResultSetExtractor<Set<CompanyStockDetailsBO>> {
+
+		@Override
+		public Set<CompanyStockDetailsBO> extractData(ResultSet rs) throws SQLException, DataAccessException {
+
+			Set<CompanyStockDetailsBO> companyAccessorSet = new LinkedHashSet<CompanyStockDetailsBO>();
+
+			while (rs.next()) {
+				CompanyStockDetailsBO companyBO = new CompanyStockDetailsBO();
+				companyBO.setStockDate(rs.getDate(1));
+				companyBO.setCompanyCode(rs.getInt(2));
+				companyBO.setCompanyOpenPrice(rs.getFloat(3));
+				companyBO.setCompanyHighPrice(rs.getFloat(4));
+				companyBO.setCompanyLowPrice(rs.getFloat(5));
+				companyBO.setCompanyClosePrice(rs.getFloat(6));
+				companyBO.setCompanyPrevClosePrice(rs.getFloat(7));
+				companyBO.setStockVolume(rs.getInt(8));
+				companyBO.setCompanyTurnover(rs.getLong(9));
+
+				companyAccessorSet.add(companyBO);
+
+			}
+			return companyAccessorSet;
+
+		}
+
+	}
+
+
+	@Override
+	public List<DailyPatternReportBO> getLatestPatternReport() {
+
+		return jdbcTemplate.query(SuggestionReportSqlConstant.GET_LATEST_PATTERN_DATA, new LatestReportExtractor());
+
+	}
+
+	private class LatestReportExtractor implements ResultSetExtractor<List<DailyPatternReportBO>> {
+
+		@Override
+		public List<DailyPatternReportBO> extractData(ResultSet rs) throws SQLException, DataAccessException {
+			List<DailyPatternReportBO> reportList = null;
+			reportList = new ArrayList<DailyPatternReportBO>();
+			while (rs.next()) {
+				DailyPatternReportBO dailyPatternReportBo = new DailyPatternReportBO();
+				dailyPatternReportBo.setCompanyName(rs.getString(1));
+				dailyPatternReportBo.setPattern_Name(rs.getString(2));
+				dailyPatternReportBo.setSuggestion(rs.getString(3));
+				dailyPatternReportBo.setForming_Date(rs.getDate(4));
+				//reportBO.setStatus(rs.getString(5));
+				reportList.add(dailyPatternReportBo);
+
+			}
+			return reportList;
+		}
+	}
+
+
+
+
+
+
+
+
+	@Override
+	public List<ActiveCompanyListBO> getCompanyData(String companyname) {
+
+
+		MapSqlParameterSource mapSqlParameterSource=new MapSqlParameterSource();
+		mapSqlParameterSource.addValue("COMPANYNAME",companyname.toUpperCase()+"%");
+		return npjt.query(PortfolioSqlConstants.SQL_GETCOMPANYNAME,mapSqlParameterSource ,new CompanyNameExtractor());
+
+	}
+	private class CompanyNameExtractor implements ResultSetExtractor<List<ActiveCompanyListBO>>{
+
+		@Override
+		public List<ActiveCompanyListBO> extractData(ResultSet rs) throws SQLException, DataAccessException {
+
+			List<ActiveCompanyListBO> getCompanyList=new ArrayList<ActiveCompanyListBO>();
+			while(rs.next()){
+				ActiveCompanyListBO activeCompanyListBO=new ActiveCompanyListBO();
+
+
+				activeCompanyListBO.setCompanyCode(rs.getInt(1));
+				activeCompanyListBO.setCompanyId(rs.getString(2));
+				activeCompanyListBO.setCompanyName(rs.getString(3));
+				activeCompanyListBO.setCompanyGroup(rs.getString(4));
+				activeCompanyListBO.setCompanyFaceValue(rs.getFloat(5));
+				activeCompanyListBO.setCompanyIndustry(rs.getString(6));
+
+				getCompanyList.add(activeCompanyListBO);
+			}
+			return getCompanyList;
+		}
+
+	}
+
+
+	@Override
+	public List<ActiveCompanyListBO> getCompanyNameList(String companyName) {
+		String companyName1 = companyName+"%";
+		return jdbcTemplate.query(LoginSqlConstants.SQL_COMPNAME, new Object[] { companyName1,companyName1,companyName1 },
+				new CompanyNameResultSetExtractor());
+
+	}
+
+	private class CompanyNameResultSetExtractor implements ResultSetExtractor<List<ActiveCompanyListBO>> {
+
+		@Override
+		public List<ActiveCompanyListBO> extractData(ResultSet rs) throws SQLException, DataAccessException {
+
+			List<ActiveCompanyListBO> getCompanyList = new ArrayList<ActiveCompanyListBO>();
+			while (rs.next()) {
+				ActiveCompanyListBO companyBO = new ActiveCompanyListBO();
+				companyBO.setCompanyName(rs.getString(1));
+				companyBO.setCompanyId(rs.getString(3));
+				companyBO.setCompanyCode(rs.getInt(2));
+				getCompanyList.add(companyBO);
+
+			}
+			return getCompanyList;
+		}
+
+	}
+
+	@Override
+	public List<ActiveCompanyListBO> getCompanyList() {
+
+		return jdbcTemplate.query(LoginSqlConstants.SQL_COMPANYNAME_FOR_TESTING,new CompanyExtractor());
+
+	}
+
+	private class CompanyExtractor implements ResultSetExtractor<List<ActiveCompanyListBO>> {
+
+		@Override
+		public List<ActiveCompanyListBO> extractData(ResultSet rs) throws SQLException, DataAccessException {
+
+			List<ActiveCompanyListBO> getCompanyList = new ArrayList<ActiveCompanyListBO>();
+			while (rs.next()) {
+				ActiveCompanyListBO companyBO = new ActiveCompanyListBO();
+				companyBO.setCompanyName(rs.getString(1));
+				getCompanyList.add(companyBO);
+
+			}
+			return getCompanyList;
+		}
+
+	}
+	
+			
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+
+	}
+
+	
+
+	@Override
+	public int delete(String pk) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int create(Object object) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void delete() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public CompanyStockDetailsBO getLiveDataDAO(String companyName) {
+		return jdbcTemplate.query(LiveDataSqlConstant.SQL_GETLIVE_DATAFEEDS, new Object[] { companyName },
+				new LiveDataResultSetExtractor());
+
+	}
+
+	private class LiveDataResultSetExtractor implements ResultSetExtractor<CompanyStockDetailsBO> {
+
+		@Override
+		public CompanyStockDetailsBO extractData(ResultSet rs) throws SQLException, DataAccessException {
+
+			CompanyStockDetailsBO companyStockDetailsBO = new CompanyStockDetailsBO();
+			while (rs.next()) {
+				companyStockDetailsBO.setCompanyOpenPrice(rs.getFloat(1));
+				companyStockDetailsBO.setCompanyPrevClosePrice(rs.getFloat(5));
+				companyStockDetailsBO.setCompanyClosePrice(rs.getFloat(4));
+				companyStockDetailsBO.setCompanyHighPrice(rs.getFloat(2));
+				companyStockDetailsBO.setCompanyLowPrice(rs.getFloat(3));
+				companyStockDetailsBO.setStockVolume(rs.getInt(6));
+				companyStockDetailsBO.setCompanyTurnover(rs.getLong(7));
+				companyStockDetailsBO.setStockDate(rs.getTimestamp(8));
+			}
+			return companyStockDetailsBO;
+		}
+
+	}
+
+
+
+	@Override
+	public List<String> getCompnyListsForTicker() {
+		return jdbcTemplate.query(LiveDataSqlConstant.SQL_GETCOMPANYFOR_TICKER,
+				new GetCompniesListResultSetExtractor());
+
+	}
+
+	private class GetCompniesListResultSetExtractor implements ResultSetExtractor<List<String>> {
+
+		@Override
+		public  List<String> extractData(ResultSet rs) throws SQLException, DataAccessException {
+
+			List<String> list = new ArrayList<>();
+			while (rs.next()) {
+				list.add(rs.getString(1));	
+			}
+			return list;
+		}
+
+	}
+
+
+
+	@Override
+	public Map<String, Object> getCompanySuggestion(String companyName) {
+		companyName = companyName+"%";
+		return jdbcTemplate.query(SuggestionReportSqlConstant.GET_PATTERN_SUGGESTION,
+				new Object[] {companyName,companyName}, new GetCompanySuggestionResultSetExtractor());
+	}
+
+	private class GetCompanySuggestionResultSetExtractor implements ResultSetExtractor<Map<String,Object>> {
+
+		@Override
+		public Map<String, Object> extractData(ResultSet rs) throws SQLException, DataAccessException {
+			Map<String,Object> companySuggestionMap=null;
+			companySuggestionMap= new LinkedHashMap<String,Object>();
+			while(rs.next()){
+				companySuggestionMap.put("Company-Name", rs.getString(1));
+				companySuggestionMap.put("Pattern-Name", rs.getString(2));
+				companySuggestionMap.put("Algorithmic Suggestion", rs.getString(3));
+				try {
+					companySuggestionMap.put("Detected On", DateHelper.convertDateToStringInINR(DateHelper.convertStringToDate(rs.getString(4))));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				companySuggestionMap.put("Caution", rs.getString(5));
+			}
+			return companySuggestionMap;
+		}
+
+	}
+
+
+
+	@Override
+	public List<DailyPatternReportBO> getHilightesCompanyDataReport(int numberofCompany) {
+		return jdbcTemplate.query(SuggestionReportSqlConstant.GET_HILIGHTES_COMPANY_DATA_REPORT,new Object[]{numberofCompany}, new HilightesCompanyDataReport());
+
+	}
+
+	private class HilightesCompanyDataReport implements ResultSetExtractor<List<DailyPatternReportBO>> {
+
+		@Override
+		public List<DailyPatternReportBO> extractData(ResultSet rs) throws SQLException, DataAccessException {
+			List<DailyPatternReportBO> reportList = null;
+			reportList = new ArrayList<DailyPatternReportBO>();
+			while (rs.next()) {
+				DailyPatternReportBO dailyPatternReportBo = new DailyPatternReportBO();
+				dailyPatternReportBo.setCompanyName(rs.getString(1));
+				dailyPatternReportBo.setPattern_Name(rs.getString(2));
+				dailyPatternReportBo.setSuggestion(rs.getString(3));
+				dailyPatternReportBo.setForming_Date(rs.getDate(4));
+				dailyPatternReportBo.setAudit_date_time(rs.getDate(6));
+				//reportBO.setStatus(rs.getString(5));
+				reportList.add(dailyPatternReportBo);
+
+			}
+			return reportList;
+		}
+	}
+
+
+	/*=================================================================================================================*/
+	
+	@Override
+	public List<LiveBSESensexBO> getGainerLoserTurnover() {
+
+			return jdbcTemplate.query(LiveDataSqlConstant.SQL_GETGAINER_LOSER_TURNOVER_INTRADAY,new GainerLoserExtractor());
+
+
+	}
+
+	private class GainerLoserExtractor implements ResultSetExtractor<List<LiveBSESensexBO>>{
+
+		@Override
+		public List<LiveBSESensexBO> extractData(ResultSet rs) throws SQLException, DataAccessException {
+			List<LiveBSESensexBO> gainerLoserList= null;
+			gainerLoserList=new ArrayList<>();
+			while(rs.next()){
+				
+				LiveBSESensexBO BOlist=new LiveBSESensexBO();
+				BOlist.setCompanyName(rs.getString(1));
+				BOlist.setCurrent_Value(rs.getFloat(2));
+				BOlist.setPrev_Close_Price(rs.getFloat(3));
+				BOlist.setTurnOver(Float.parseFloat(dfm.format(rs.getFloat(5)/10000000)));
+				BOlist.setVolume(rs.getInt(4));
+				BOlist.setAuditDateTime(rs.getTimestamp(6));
+				gainerLoserList.add(BOlist);
+			}
+			return gainerLoserList;
+		}
+	}
+	
+	@Override
+	public List<DailyPatternReportBO> getHighLights() {
+
+			return jdbcTemplate.query(SuggestionReportSqlConstant.GET_HIGHLIGHTS,new HighlightExtractor());
+
+
+	}
+
+	private class HighlightExtractor implements ResultSetExtractor<List<DailyPatternReportBO>>{
+
+		@Override
+		public List<DailyPatternReportBO> extractData(ResultSet rs) throws SQLException, DataAccessException {
+			List<DailyPatternReportBO> highLightList= null;
+			highLightList=new ArrayList<>();
+			while(rs.next()){
+				
+				DailyPatternReportBO BOlist=new DailyPatternReportBO();
+				BOlist.setCompanyName(rs.getString(1));
+				BOlist.setPattern_Name(rs.getString(2));
+				BOlist.setSuggestion(rs.getString(3));
+				BOlist.setForming_Date(rs.getDate(4));
+				BOlist.setAudit_date_time(rs.getDate(5));
+				highLightList.add(BOlist);
+			}
+			return highLightList;
+		}
+	}
+	
+
+
+	public String column_Name; 
+	@Override
+	public List<GainerLoserBO> getGainerOrLoserValue(String duration, String orderBy, int start_price, int end_price,
+			int limit) {
+		column_Name=duration;
+		StringBuilder query=new StringBuilder(LiveDataSqlConstant.SQL_GETGAINER_LOSER_ALL);
+
+		String dynemicChange = "close_price BETWEEN "+start_price+" AND "+end_price+" ORDER BY "+duration+" "+orderBy+" LIMIT "+limit+"";
+		query.append(dynemicChange);
+
+		return jdbcTemplate.query(query.toString(),new GainerLoserDisplayExtractor());
+
+	}
+
+	private class GainerLoserDisplayExtractor implements ResultSetExtractor<List<GainerLoserBO>>{
+
+		@Override
+		public List<GainerLoserBO> extractData(ResultSet rs) throws SQLException, DataAccessException {
+			List<GainerLoserBO> gainerLoserList= null;
+			gainerLoserList=new ArrayList<>();
+			while(rs.next()){
+				GainerLoserBO gainerLoserBO=new GainerLoserBO();
+				gainerLoserBO.setCompanyName(rs.getString(1));
+				gainerLoserBO.setClosePrice(rs.getFloat(2));
+				gainerLoserBO.setPercentageVariation(Float.parseFloat(dfm.format(rs.getFloat(column_Name))));
+				gainerLoserList.add(gainerLoserBO);
+			}
+			return gainerLoserList;
+		}
+	}
+
+
+
+
+	@Override
+	public List<LiveBSESensexBO> getnewlyaddedcompany() {
+		return jdbcTemplate.query(LiveDataSqlConstant.SQL_NEWLYADDED_COMPANY, new newlyaddedextractor());
+	}
+	private class newlyaddedextractor implements ResultSetExtractor<List<LiveBSESensexBO>>{
+
+		@Override
+		public List<LiveBSESensexBO> extractData(ResultSet rs) throws SQLException, DataAccessException {
+			List<LiveBSESensexBO> value=null;
+			value=new ArrayList<LiveBSESensexBO>();
+			while(rs.next()){
+				LiveBSESensexBO livedatabo= new LiveBSESensexBO();
+				livedatabo.setCompanyName(rs.getString(1));
+				
+				livedatabo.setAuditDateTime(rs.getDate(2));
+				livedatabo.setCurrent_Value(rs.getFloat(3));
+				value.add(livedatabo);
+			}
+			
+			return value;
+		}
+		
+	}
+
+
+
+	@Override
+	public ActiveCompanyListBO getdetailsBaseCompanyName(String companyName) {
+		return jdbcTemplate.queryForObject(AccessorSqlConstant.SQL_GETDETAILBASECOMPANYNAME, new Object[] {companyName}, new RowMapper<ActiveCompanyListBO>(){
+
+			@Override
+			public ActiveCompanyListBO mapRow(ResultSet rs, int arg1) throws SQLException {
+				
+				ActiveCompanyListBO activeCompanyListBO= new ActiveCompanyListBO();
+				activeCompanyListBO.setCompanyCode(rs.getInt(1));
+				activeCompanyListBO.setCompanyId(rs.getString(2));
+				activeCompanyListBO.setCompanyName(rs.getString(3));
+				activeCompanyListBO.setCompanyGroup(rs.getString(4));
+				activeCompanyListBO.setCompanyFaceValue(rs.getFloat(5));
+				activeCompanyListBO.setCompanyIndustry(rs.getString(6));
+				return activeCompanyListBO;
+			}
+			
+		});
+	}
+
+	@Override
+	public List find() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+}
+

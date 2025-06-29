@@ -1,0 +1,155 @@
+package com.nivesh.service.algoefficacy;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.nivesh.bo.AlgoEfficacyBO;
+import com.nivesh.bo.UserLogHistoryBO;
+import com.nivesh.command.algoefficacy.AlgoEfficacyCommand;
+import com.nivesh.dao.algoefficacy.AlgoEfficacyDaoImpl;
+import com.nivesh.dao.algoefficacy.IAlgoEfficacyDao;
+import com.nivesh.util.DateHelper;
+
+@Service
+public class AlgoEfficacyServiceImpl implements IAlgoEfficacyService {
+	@Resource(name = "iAlgoEfficacyDao")
+	private IAlgoEfficacyDao iAlgoEfficacyDao;
+
+	public void setiAlgoEfficacyDao(IAlgoEfficacyDao iAlgoEfficacyDao) {
+		this.iAlgoEfficacyDao = iAlgoEfficacyDao;
+	}
+
+	@Override
+	public Map findAlgoEfficacy(AlgoEfficacyCommand efficacyCommand) throws ParseException {
+		// TODO Auto-generated method stub
+		AlgoEfficacyBO algoEfficacyBO = null;
+		algoEfficacyBO = new AlgoEfficacyBO();
+		/////////////////////////////////////////
+		Date todayDate = null;
+		String todayDateInString = null;
+		todayDate = new Date();
+		//System.out.println("todayDate-------" + todayDate);
+		SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+		todayDateInString = sd.format(todayDate);
+		try {
+			todayDate = sd.parse(todayDateInString);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		// return todayDate;
+		String adate = todayDate.toLocaleString().substring(0, 13);
+
+		Date dateMonthwise = DateHelper.convertStringToDate(efficacyCommand.getDateofAlgo());
+		int months = Integer.parseInt(efficacyCommand.getMonthofAlgo());
+
+		String startDate3 = efficacyCommand.getDateofAlgo();
+		SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date date3 = sdf3.parse(startDate3);
+		java.sql.Date dateGivenwise = new java.sql.Date(date3.getTime());
+		//System.out.println("given date in sql date format========" + dateGivenwise);
+
+		String previousCurrentDateDayWise = DateHelper.previousDateDayWise(dateGivenwise, 10);
+
+		String startDate4 = previousCurrentDateDayWise;
+		SimpleDateFormat sdf4 = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date date4 = sdf4.parse(startDate4);
+		java.sql.Date prevCurdateDayWise = new java.sql.Date(date4.getTime());
+		//System.out.println("10 days back from search date========" + prevCurdateDayWise);
+
+		String previousDateMonthwise = DateHelper.previousDateMonthWise(dateMonthwise, months);
+		//System.out.println("previousDateMonthwise" + previousDateMonthwise);
+
+		String startDate = previousDateMonthwise;
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date date = sdf1.parse(startDate);
+		java.sql.Date dateDaywise = new java.sql.Date(date.getTime());
+		//System.out.println("current month back========" + dateDaywise);
+
+		String previousDateDayWise = DateHelper.previousDateDayWise(dateDaywise, 10);
+		//System.out.println("10 days back:" + previousDateDayWise);
+
+		String startDate1 = previousDateDayWise;
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date date1 = sdf2.parse(startDate1);
+		java.sql.Date prevdateDayWise = new java.sql.Date(date1.getTime());
+		//System.out.println("10 days back========" + prevdateDayWise);
+
+		algoEfficacyBO.setGivendate(dateDaywise);
+		algoEfficacyBO.setPrevgivendate(prevdateDayWise);
+		algoEfficacyBO.setSearchdate(dateGivenwise);
+		AlgoEfficacyBO efficacyBO = null;
+
+		List<AlgoEfficacyBO> algoEfficacy = (List<AlgoEfficacyBO>) iAlgoEfficacyDao.findAlgoEfficacy(algoEfficacyBO);
+		
+
+		List<AlgoEfficacyBO> algoEfficacyBOs = new ArrayList<AlgoEfficacyBO>();
+
+		for (int i = 1; i < algoEfficacy.size(); i++) {
+
+			if ((algoEfficacy.get(i - 1).getSc_code()) != (algoEfficacy.get(i).getSc_code())) {
+				//System.out.println("=======check sc code " + algoEfficacy.get(i - 1).getSc_code());
+				AlgoEfficacyBO bo = iAlgoEfficacyDao.findCurrentPrice(algoEfficacy.get(i - 1).getSc_code(),
+						algoEfficacyBO.getSearchdate());
+			//	System.out.println("====today====close price===" + bo.getTodayClosePrice());
+				efficacyBO = new AlgoEfficacyBO(); //
+				efficacyBO.setCompanyname(algoEfficacy.get(i - 1).getCompanyname());
+				efficacyBO.setPattern_name(algoEfficacy.get(i - 1).getPattern_name());
+				efficacyBO.setSuggestion(algoEfficacy.get(i - 1).getSuggestion());
+				efficacyBO.setForming_date(algoEfficacy.get(i - 1).getForming_date());
+				efficacyBO.setBackPrice(algoEfficacy.get(i - 1).getBackPrice());
+				efficacyBO.setTodayClosePrice(bo.getTodayClosePrice());
+				efficacyBO.setAcPer(((bo.getTodayClosePrice() - algoEfficacy.get(i - 1).getBackPrice()) * 100)
+						/ algoEfficacy.get(i - 1).getBackPrice());
+
+				algoEfficacyBOs.add(efficacyBO);
+			}
+
+		}
+
+		AlgoEfficacyBO algoEfficacyBO2 = iAlgoEfficacyDao.findBsePrice(algoEfficacyBO.getSearchdate());
+		//System.out.println("==current bse close price===" + algoEfficacyBO2.getBsePrice());
+		AlgoEfficacyBO algoEfficacyBO3 = iAlgoEfficacyDao.findBseBackPrice(algoEfficacyBO.getGivendate());
+
+		//System.out.println("algoEfficacyBOs from list " + algoEfficacyBOs.get(0).getBseBackPrice());
+		Collections.sort(algoEfficacyBOs, new PercantageCompartor());
+		// System.out.println(" =========afetr sorting=========="+);
+
+		//System.out.println("===prev bse close price===" + algoEfficacyBO3.getBseBackPrice());
+		AlgoEfficacyBO algoEfficacyBO4 = new AlgoEfficacyBO();
+		algoEfficacyBO4.setGivendate(dateDaywise);
+		algoEfficacyBO4.setBsePrice(algoEfficacyBO2.getBsePrice());
+		algoEfficacyBO4.setBseBackPrice(algoEfficacyBO3.getBseBackPrice());
+		algoEfficacyBO4.setBseacPer(((algoEfficacyBO2.getBsePrice() - algoEfficacyBO3.getBseBackPrice()) * 100)
+				/ algoEfficacyBO3.getBseBackPrice());
+
+		List<AlgoEfficacyBO> algoEfficacyBOs2 = new ArrayList<AlgoEfficacyBO>();
+		algoEfficacyBOs2.add(algoEfficacyBO4);
+		//System.out.println("===bse value list=====" + algoEfficacyBOs2);
+		Map map = new LinkedHashMap();
+		map.put("month", months);
+		map.put("prevdate", prevCurdateDayWise);
+		map.put("curdate", dateGivenwise);
+		map.put("bse", algoEfficacyBOs2);
+		map.put("currentDate", adate);
+		// map.put("bse", algoEfficacyBO4);
+		map.put("list", algoEfficacyBOs.subList(0, 10));
+
+		return map;
+	}
+
+}

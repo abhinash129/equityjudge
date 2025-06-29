@@ -1,0 +1,38 @@
+package com.nivesh.command.dashboard;
+
+public class GainerAndLosserCommand {
+	
+	private String indexRange;
+	private String priceRange;
+	private String durationRange;
+	
+	
+	
+
+	@Override
+	public String toString() {
+		return "GainerAndLosserCommand [indexRange=" + indexRange + ", priceRange=" + priceRange + ", durationRange="
+				+ durationRange + "]";
+	}
+	public String getIndexRange() {
+		return indexRange;
+	}
+	public void setIndexRange(String indexRange) {
+		this.indexRange = indexRange;
+	}
+	public String getPriceRange() {
+		return priceRange;
+	}
+	public void setPriceRange(String priceRange) {
+		this.priceRange = priceRange;
+	}
+	public String getDurationRange() {
+		return durationRange;
+	}
+	public void setDurationRange(String durationRange) {
+		this.durationRange = durationRange;
+	}
+	
+	
+
+}

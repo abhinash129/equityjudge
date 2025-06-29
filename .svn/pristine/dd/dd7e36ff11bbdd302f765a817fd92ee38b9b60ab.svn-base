@@ -1,0 +1,46 @@
+package com.nivesh.command.masterdatasetup;
+
+public class ParameterCommand {
+	private String[] FieldName;
+	private String[] DisplayName;
+	private String[] LogicalValue;
+	private String[] ParameterOrder;
+
+	
+
+	public String[] getDisplayName() {
+		return DisplayName;
+	}
+
+	public void setDisplayName(String[] displayName) {
+		DisplayName = displayName;
+	}
+
+	public String[] getLogicalValue() {
+		return LogicalValue;
+	}
+
+	public void setLogicalValue(String[] logicalValue) {
+		LogicalValue = logicalValue;
+	}
+
+	public String[] getParameterOrder() {
+		return ParameterOrder;
+	}
+
+	public void setParameterOrder(String[] parameterOrder) {
+		ParameterOrder = parameterOrder;
+	}
+
+	public String[] getFieldName() {
+		return FieldName;
+	}
+
+	public void setFieldName(String[] fieldName) {
+		FieldName = fieldName;
+	}
+
+	
+	
+
+}

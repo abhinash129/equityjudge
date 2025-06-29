@@ -1,0 +1,25 @@
+package com.nivesh.batch.CacheClearence;
+
+import java.util.List;
+
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.NonTransientResourceException;
+import org.springframework.batch.item.ParseException;
+import org.springframework.batch.item.UnexpectedInputException;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.nivesh.util.ICompanyDetailsHelperService;
+
+public class CacheClearenceReader implements ItemReader<List> {
+
+	@Autowired
+	private ICompanyDetailsHelperService iCompanyDetailsHelperService;
+
+	@Override
+	public List<?> read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+		
+		iCompanyDetailsHelperService.clearCompanyCache();
+		
+		return null;
+	}
+
+}

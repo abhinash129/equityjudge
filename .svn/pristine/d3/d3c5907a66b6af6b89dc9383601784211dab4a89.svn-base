@@ -1,0 +1,121 @@
+package com.nivesh.command.payment;
+
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.stereotype.Component;
+
+
+@Component
+public class UserPaymentCommand {
+	
+	
+	
+	@Override
+	public String toString() {
+		return "UserPaymentCommand [purpose=" + purpose + ", buyer_userId=" + buyer_userId + ", email=" + email
+				+ ", phone=" + phone + ", addressline=" + addressline + ", send_email=" + send_email + ", send_sms="
+				+ send_sms + ", redirect_url=" + redirect_url + ", webhook=" + webhook + ", payment_id=" + payment_id
+				+ ", allow_repeated_payments=" + allow_repeated_payments + ", reason_of_refund=" + reason_of_refund
+				+ ", amount=" + amount + "]";
+	}
+	@NotEmpty
+	private String purpose;
+	private String buyer_userId;
+	private String email;
+	private String phone;
+	private String addressline;
+	private boolean send_email;
+	private boolean send_sms;
+	private String redirect_url;
+	private String webhook;
+	private String payment_id;
+	private boolean allow_repeated_payments;
+	private String reason_of_refund;
+	
+	
+	public String getReason_of_refund() {
+		return reason_of_refund;
+	}
+	public void setReason_of_refund(String reason_of_refund) {
+		this.reason_of_refund = reason_of_refund;
+	}
+	private String amount;
+
+	public String getPayment_id() {
+		return payment_id;
+	}
+	public void setPayment_id(String payment_id) {
+		this.payment_id = payment_id;
+	}
+	
+	public boolean isSend_email() {
+		return send_email;
+	}
+	public boolean isSend_sms() {
+		return send_sms;
+	}
+	public String getAddressline() {
+		return addressline;
+	}
+	public void setAddressline(String addressline) {
+		this.addressline = addressline;
+	}
+	
+	public String getRedirect_url() {
+		return redirect_url;
+	}
+	public void setRedirect_url(String redirect_url) {
+		this.redirect_url = redirect_url;
+	}
+	public String getWebhook() {
+		return webhook;
+	}
+	public void setWebhook(String webhook) {
+		this.webhook = webhook;
+	}
+	public boolean isAllow_repeated_payments() {
+		return allow_repeated_payments;
+	}
+	public void setAllow_repeated_payments(boolean allow_repeated_payments) {
+		this.allow_repeated_payments = allow_repeated_payments;
+	}
+	public void setSend_email(boolean send_email) {
+		this.send_email = send_email;
+	}
+	public void setSend_sms(boolean send_sms) {
+		this.send_sms = send_sms;
+	}
+	public String getPurpose() {
+		return purpose;
+	}
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
+	}
+	public String getAmount() {
+		return amount;
+	}
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getBuyer_userId() {
+		return buyer_userId;
+	}
+	public void setBuyer_userId(String buyer_userId) {
+		this.buyer_userId = buyer_userId;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
+	
+
+}

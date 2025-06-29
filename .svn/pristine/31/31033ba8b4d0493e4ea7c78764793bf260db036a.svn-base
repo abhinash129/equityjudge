@@ -1,0 +1,51 @@
+package com.nivesh.command.security;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+public class FeatureInsertCommand {
+	private String featureid;
+	
+	@NotEmpty (message="Feature Name is Required......")
+	private String featurename;
+	
+	private String description;
+	
+	@NotEmpty (message="Path is Required......")
+	private String path;
+	
+	private String status;
+	
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getFeatureid() {
+		return featureid;
+	}
+	public void setFeatureid(String featureid) {
+		this.featureid = featureid;
+	}
+	public String getFeaturename() {
+		return featurename;
+	}
+	public void setFeaturename(String featurename) {
+		this.featurename = featurename;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+	
+
+}

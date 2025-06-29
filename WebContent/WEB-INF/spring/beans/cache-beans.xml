@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+		
+
+<task:scheduler id="schedulerCache"/>
+
+<bean id="cacheClearenceAnalyzerLauncher" class="com.nivesh.batch.CacheClearence.CacheClearenceAnalyzerLauncher">
+		<property name="job" ref="CacheClearenceAnalyserBatchJob" />
+		<property name="jobLauncher" ref="jobLauncher" />
+</bean>
+
+<task:scheduled-tasks scheduler="schedulerCache">
+		<task:scheduled ref="cacheClearenceAnalyzerLauncher" method="launchCacheClear"  cron="0 00 17 ? * MON-FRI"/>
+</task:scheduled-tasks>
+
+<batch:job id="CacheClearenceAnalyserBatchJob" job-repository="jobRepository">
+		<batch:step id="cacheClearenceStep">
+				<batch:tasklet transaction-manager="transactionManager" >
+                		<batch:chunk reader="cacheClearenceReader" writer="cacheClearenceWriter" commit-interval="1"/>
+            </batch:tasklet>
+		</batch:step>
+</batch:job>
+
+<bean id="cacheClearenceReader" class="com.nivesh.batch.CacheClearence.CacheClearenceReader" />
+<bean id="cacheClearenceWriter" class="com.nivesh.batch.CacheClearence.CacheClearenceWriter" />
+
+
+</beans>

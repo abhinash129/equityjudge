@@ -1,0 +1,55 @@
+package com.nivesh.command.security;
+
+public class UserRoleEditCommand {
+
+	private String userroleid;
+	private String rolename;
+	private String roleid;
+	private String uname;
+	private String description;
+	private String status;
+	public String getUserroleid() {
+		return userroleid;
+	}
+	public void setUserroleid(String userroleid) {
+		this.userroleid = userroleid;
+	}
+	public String getRolename() {
+		return rolename;
+	}
+	public void setRolename(String rolename) {
+		this.rolename = rolename;
+	}
+	public String getRoleid() {
+		return roleid;
+	}
+	public void setRoleid(String roleid) {
+		this.roleid = roleid;
+	}
+	public String getUname() {
+		return uname;
+	}
+	public void setUname(String uname) {
+		this.uname = uname;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	@Override
+	public String toString() {
+		return "UserRoleEditCommand [userroleid=" + userroleid + ", rolename=" + rolename + ", roleid=" + roleid
+				+ ", uname=" + uname + ", description=" + description + ", status=" + status + "]";
+	}
+	
+	
+	
+}

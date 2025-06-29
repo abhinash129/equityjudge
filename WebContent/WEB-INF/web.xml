@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>Equityjudge</display-name>
+ 
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/spring/application-context.xml</param-value>
+  </context-param>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <servlet>
+    <servlet-name>dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/spring/mvc-context.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dispatcher</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  
+
+<!--   Payment Gateway Integration Context Paramtere -->
+  
+   <context-param>
+    <param-name>api_key</param-name>
+<!--     <param-value>7ba76d1ebfa7968c771cbfef450f016f</param-value> -->
+    <param-value>528634e216ef4f3d502686532175dc7f</param-value>
+  </context-param>
+  <context-param>
+    <param-name>auth_token</param-name>
+<!--     <param-value>233f52d267f3c315086e12790d8d72b4</param-value> -->
+    <param-value>f42f172df031d24d505f7a1a9f30d685</param-value>
+  </context-param>
+  <context-param>
+    <param-name>paymentRequestStatus_url</param-name>
+<!--     <param-value>https://www.instamojo.com/api/1.1/payment-requests/</param-value> -->
+    <param-value>https://test.instamojo.com/api/1.1/payment-requests/</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>redirect_url</param-name>
+<!--     <param-value>http://www.equityjudge.com/paymentRedirect</param-value> -->
+    <param-value>http://localhost:8080/Nivesh_Development/paymentRedirect</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>refund_url</param-name>
+<!--     <param-value>https://www.instamojo.com/api/1.1/refunds/</param-value> -->
+    <param-value>https://test.instamojo.com/api/1.1/refunds/</param-value>
+  </context-param>
+  
+  
+  
+  
+  <context-param>
+    <param-name>webhook_url</param-name>
+    <param-value>http://requestb.in/1eajglr1</param-value>
+<!--     <param-value>http://www.equityjudge.com/webhook</param-value> -->
+<!--     <param-value>http://www.equityjudge.com/webhook</param-value> -->
+<!--     <param-value>http://localhost:8080/Nivesh_Development/webhook</param-value> -->
+  </context-param>
+  
+  
+  
+  
+  
+  
+  
+  <!-- 26 feb add for test -->
+    <error-page>
+   <error-code>403</error-code>
+   <location>/WEB-INF/jsp/access_error.jsp</location>
+   </error-page>
+    <!-- <error-page>
+   <error-code>403</error-code>
+   <location>/WEB-INF/jsp/access_error.jsp</location>
+   </error-page> -->
+     <error-page>
+   <error-code>404</error-code>
+   <location>/WEB-INF/jsp/404_error.jsp</location>
+   </error-page>
+   <error-page>
+   <error-code>500</error-code>
+   <location>/WEB-INF/jsp/server_error.jsp</location>
+   </error-page>
+   <error-page>
+   <error-code>503</error-code>
+   <location>/WEB-INF/jsp/server_error.jsp</location>
+   </error-page>
+   <error-page>
+   <error-code>504</error-code>
+   <location>/WEB-INF/jsp/server_error.jsp</location>
+   </error-page>
+<filter>
+    <filter-name>UrlRewriteFilter</filter-name>
+    <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>UrlRewriteFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+</filter-mapping>   
+ <filter>
+<filter-name>noCacheFilter</filter-name>
+<filter-class>com.nivesh.aspect.RequestProcessingFilter</filter-class>
+</filter>
+<filter-mapping>
+<filter-name>noCacheFilter</filter-name>
+<url-pattern>/*</url-pattern>
+</filter-mapping>
+      
+   <session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+  
+</web-app>

@@ -1,0 +1,19 @@
+package com.nivesh.batch.CacheClearence;
+
+import java.util.List;
+
+import org.springframework.batch.item.ItemWriter;
+
+import com.nivesh.bo.CompanyStockDetailsBO;
+
+public class CacheClearenceWriter implements ItemWriter<CompanyStockDetailsBO>{
+
+	@Override
+	public void write(List<? extends CompanyStockDetailsBO> arg0) throws Exception {
+		
+		System.out.println("inside");
+	}
+
+	
+
+}
